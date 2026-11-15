@@ -156,7 +156,7 @@ test('names, durations, and geometry reject bad input', () => {
   )
 })
 
-test('stroke-draw plays from the undrawn hold to the rest frame', () => {
+test('stroke-draw plays from the undrawn frame to the rest frame', () => {
   const icon = strokeDraw('full')
   assert.deepEqual(icon.motion, {
     kind: 'play',

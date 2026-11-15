@@ -28,20 +28,22 @@ export type Track = {
 
 export type ResolvedBehavior = {
   readonly durationMs: DurationMs
-  readonly hold: readonly AttrPatch[]
+  readonly undrawn: readonly AttrPatch[]
   readonly rest: readonly AttrPatch[]
   readonly tracks: readonly Track[]
 }
 
-const STROKE_DRAW_HOLD: MotionAttrs = {
-  pathLength: 1,
-  'stroke-dasharray': 1,
-  'stroke-dashoffset': 1,
+const STROKE_UNIT = 1
+
+const STROKE_DRAW_UNDRAWN: MotionAttrs = {
+  pathLength: STROKE_UNIT,
+  'stroke-dasharray': STROKE_UNIT,
+  'stroke-dashoffset': STROKE_UNIT,
 }
 
 const STROKE_DRAW_REST: MotionAttrs = {
-  pathLength: 1,
-  'stroke-dasharray': 1,
+  pathLength: STROKE_UNIT,
+  'stroke-dasharray': STROKE_UNIT,
   'stroke-dashoffset': 0,
 }
 
@@ -78,20 +80,19 @@ export function sampleTrack(track: Track, elapsedMs: number, duration: number): 
 }
 
 function resolveStrokeDraw(duration: DurationMs, icon: IconDefinition): ResolvedBehavior {
-  const hold: AttrPatch[] = []
+  const undrawn: AttrPatch[] = []
   const rest: AttrPatch[] = []
   const tracks: Track[] = []
-  // pathLength 1 is the whole stroke, so the dash offset is a fraction. The core does not parse d.
   eachShape(icon.nodes, [], (node, path) => {
     if (node.attrs.stroke === 'none' || node.attrs['stroke-width'] === 0) return
-    hold.push({ path, attrs: { ...STROKE_DRAW_HOLD } })
+    undrawn.push({ path, attrs: { ...STROKE_DRAW_UNDRAWN } })
     rest.push({ path, attrs: { ...STROKE_DRAW_REST } })
-    tracks.push({ path, attribute: 'stroke-dashoffset', from: 1, to: 0 })
+    tracks.push({ path, attribute: 'stroke-dashoffset', from: STROKE_UNIT, to: 0 })
   })
-  if (hold.length === 0) {
+  if (undrawn.length === 0) {
     throw new IconInputError('stroke-draw needs a stroked shape', 'behavior')
   }
-  return { durationMs: duration, hold, rest, tracks }
+  return { durationMs: duration, undrawn, rest, tracks }
 }
 
 function eachShape(

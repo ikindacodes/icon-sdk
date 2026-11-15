@@ -61,7 +61,7 @@ type Plan =
       readonly kind: 'play'
       readonly durationMs: DurationMs
       readonly trigger: Trigger
-      readonly hold: readonly AttrPatch[]
+      readonly undrawn: readonly AttrPatch[]
       readonly rest: readonly AttrPatch[]
       readonly tracks: readonly Track[]
     }
@@ -108,7 +108,7 @@ function planOf(input: StillInput | AnimatedInput): Plan {
         kind: 'play',
         durationMs: resolved.durationMs,
         trigger: input.trigger,
-        hold: resolved.hold,
+        undrawn: resolved.undrawn,
         rest: resolved.rest,
         tracks: resolved.tracks,
       }
@@ -156,8 +156,7 @@ function playPatches(
   const phase = triggerPhase(plan.trigger, clock, plan.durationMs)
   switch (phase.kind) {
     case 'idle':
-      // The undrawn hold is the first paint. Rest would flash the finished stroke, then jump backward.
-      return plan.hold
+      return plan.undrawn
     case 'done':
       return plan.rest
     case 'running':
@@ -179,7 +178,7 @@ function runningPatches(
       return [sample.path.join('.'), sample] as const
     }),
   )
-  return plan.hold.map((patch) => {
+  return plan.undrawn.map((patch) => {
     const overlay = overlays.get(patch.path.join('.'))
     if (!overlay) return patch
     return { path: patch.path, attrs: { ...patch.attrs, ...overlay.attrs } }
