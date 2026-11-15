@@ -1,0 +1,8 @@
+{
+  "name": "@icon-sdk/proof",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@icon-sdk/core": "workspace:*"
+  }
+}

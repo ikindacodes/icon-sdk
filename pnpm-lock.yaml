@@ -21,6 +21,12 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
 
+  apps/proof:
+    dependencies:
+      '@icon-sdk/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+
   packages/core: {}
 
 packages:
