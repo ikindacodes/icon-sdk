@@ -131,6 +131,14 @@ test('names, durations, and geometry reject bad input', () => {
     IconInputError,
   )
   assert.throws(
+    () =>
+      defineIcon({
+        viewBox,
+        nodes: [{ name: 'path', attrs: { d: checkPath, 'stroke-width': -1 } }],
+      }),
+    IconInputError,
+  )
+  assert.throws(
     () => defineIcon({ viewBox, nodes: [{ name: 'polyline', attrs: { points: '' } }] }),
     IconInputError,
   )

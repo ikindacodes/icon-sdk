@@ -261,7 +261,10 @@ function definePresentation(input: PresentationInput, at: string): Presentation 
   return {
     fill: input.fill ?? DEFAULT_FILL,
     stroke: input.stroke ?? DEFAULT_STROKE,
-    'stroke-width': finite(input['stroke-width'] ?? DEFAULT_STROKE_WIDTH, `${at}.stroke-width`),
+    'stroke-width': nonNegative(
+      input['stroke-width'] ?? DEFAULT_STROKE_WIDTH,
+      `${at}.stroke-width`,
+    ),
     'stroke-linecap': input['stroke-linecap'] ?? DEFAULT_LINECAP,
     'stroke-linejoin': input['stroke-linejoin'] ?? DEFAULT_LINEJOIN,
   }

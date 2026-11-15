@@ -6,7 +6,7 @@
 
 `IconDefinition` is a branded `viewBox` and a non-empty list of nodes. `defineIcon` is the only constructor. It stores stroke defaults on every node, including the children of a group. Author values win. Each node keeps its own stroke, so a group stroke stays on the group.
 
-The defaults are fill `none`, stroke `currentColor`, stroke-width `2`, stroke-linecap `round`, and stroke-linejoin `round`.
+The defaults are fill `none`, stroke `currentColor`, stroke-width `2`, stroke-linecap `round`, and stroke-linejoin `round`. A negative or non-finite stroke-width throws `IconInputError`. Zero is allowed, and stroke-draw skips that shape.
 
 `IconNode` is a discriminated union.
 
