@@ -8,7 +8,8 @@
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node --experimental-strip-types --test scripts/comment-check/comment-check.test.ts"
+    "test": "node --experimental-strip-types --test scripts/comment-check/comment-check.test.ts",
+    "comments": "node --experimental-strip-types scripts/comment-check/cli.ts"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",
