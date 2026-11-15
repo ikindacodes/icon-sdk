@@ -37,7 +37,9 @@ test('a regexp body is not a comment', () => {
 })
 
 test('a template interpolation does not hide a following line comment', () => {
-  assert.deepEqual(findComments('`a${1}b` // real', 'js'), [{ line: 1, column: 10, kind: 'line' }])
+  assert.deepEqual(findComments('`a$' + '{1}b` // real', 'js'), [
+    { line: 1, column: 10, kind: 'line' },
+  ])
 })
 
 test('a url in a template is not a comment', () => {

@@ -2,8 +2,8 @@ import { LanguageVariant, SyntaxKind } from 'typescript/unstable/ast'
 import {
   createScanner,
   getShebang,
-  tokenIsIdentifierOrKeyword,
   type Scanner,
+  tokenIsIdentifierOrKeyword,
 } from 'typescript/unstable/ast/scanner'
 
 export type SourceLanguage = 'js' | 'jsx'
@@ -144,7 +144,7 @@ function settle(state: CursorState, kind: TokenKind, scanner: Scanner): void {
       return
     default: {
       const unreachable: never = region
-      return unreachable
+      throw unreachable
     }
   }
 }

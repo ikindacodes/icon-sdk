@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { extname, join, relative, sep } from 'node:path'
-import { findComments, type CommentHit, type SourceLanguage } from './find-comments.ts'
+import { type CommentHit, findComments, type SourceLanguage } from './find-comments.ts'
 
 export type LocatedHit = CommentHit & { readonly path: string }
 

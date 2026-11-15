@@ -1,10 +1,26 @@
 import {
+  type AccessibleName,
   accessibleName,
   compose,
   defineIcon,
   durationMs,
   type IconDefinition,
+  type IconUse,
 } from '@icon-sdk/core'
+
+function expectTrue<T extends true>(value: T): T {
+  return value
+}
+
+type NotAssignable<A, B> = [A] extends [B] ? false : true
+
+type HasExtraKey<Value, Shape> = Exclude<keyof Value, keyof Shape> extends never ? false : true
+
+type ComposeInput = Parameters<typeof compose>[0]
+
+type MeaningfulUse = Extract<IconUse, { readonly purpose: 'meaningful' }>
+
+type DecorativeUse = Extract<IconUse, { readonly purpose: 'decorative' }>
 
 const icon = defineIcon({
   viewBox: { minX: 0, minY: 0, width: 24, height: 24 },
@@ -37,38 +53,30 @@ compose({
 })
 
 const literal = { viewBox: icon.viewBox, nodes: icon.nodes }
-// @ts-expect-error an object literal is not an IconDefinition
-const branded: IconDefinition = literal
-void branded
+expectTrue<NotAssignable<typeof literal, IconDefinition>>(true)
 
-// @ts-expect-error a behavior without a trigger does not compile
-compose({
+const behaviorOnly = {
   icon,
-  a11y: { purpose: 'decorative' },
-  preference: 'full',
-  behavior: { kind: 'stroke-draw', durationMs: durationMs(600) },
-})
+  a11y: { purpose: 'decorative' as const },
+  preference: 'full' as const,
+  behavior: { kind: 'stroke-draw' as const, durationMs: durationMs(600) },
+}
+expectTrue<NotAssignable<typeof behaviorOnly, ComposeInput>>(true)
 
-// @ts-expect-error a trigger without a behavior does not compile
-compose({
+const triggerOnly = {
   icon,
-  a11y: { purpose: 'decorative' },
-  preference: 'full',
-  trigger: { kind: 'on-load' },
-})
+  a11y: { purpose: 'decorative' as const },
+  preference: 'full' as const,
+  trigger: { kind: 'on-load' as const },
+}
+expectTrue<NotAssignable<typeof triggerOnly, ComposeInput>>(true)
 
-compose({
-  icon,
-  a11y: {
-    purpose: 'decorative',
-    // @ts-expect-error a decorative use cannot include a name
-    name: accessibleName('Saved'),
-  },
-  preference: 'full',
-})
+expectTrue<
+  HasExtraKey<{ readonly purpose: 'decorative'; readonly name: AccessibleName }, DecorativeUse>
+>(true)
 
-// @ts-expect-error a meaningful name rejects a raw string
-compose({ icon, a11y: { purpose: 'meaningful', name: 'Saved' }, preference: 'full' })
+expectTrue<NotAssignable<{ readonly purpose: 'meaningful'; readonly name: string }, MeaningfulUse>>(
+  true,
+)
 
-// @ts-expect-error a meaningful use requires a name
-compose({ icon, a11y: { purpose: 'meaningful' }, preference: 'full' })
+expectTrue<NotAssignable<{ readonly purpose: 'meaningful' }, MeaningfulUse>>(true)
