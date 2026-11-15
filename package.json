@@ -10,8 +10,9 @@
     "build": "rm -rf packages/core/dist apps/proof/dist && tsc -p packages/core/tsconfig.build.json && node --experimental-strip-types scripts/build-proof.ts",
     "typecheck": "rm -rf packages/core/dist && tsc -p packages/core/tsconfig.build.json && tsc -p packages/core/tsconfig.json --noEmit && tsc -p apps/proof/tsconfig.json --noEmit && tsc -p tsconfig.json --noEmit",
     "lint": "biome check .",
-    "test": "rm -rf packages/core/dist && tsc -p packages/core/tsconfig.build.json && node --experimental-strip-types --test packages/core/test/*.test.ts",
-    "size": "node --experimental-strip-types scripts/size.ts"
+    "test": "rm -rf packages/core/dist && tsc -p packages/core/tsconfig.build.json && node --experimental-strip-types --test packages/core/test/*.test.ts scripts/comment-check/comment-check.test.ts",
+    "size": "node --experimental-strip-types scripts/size.ts",
+    "comments": "node --experimental-strip-types scripts/comment-check/cli.ts"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
