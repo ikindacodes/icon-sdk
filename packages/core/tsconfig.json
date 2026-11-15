@@ -16,7 +16,7 @@
     "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "types": []
+    "types": ["node"]
   },
   "include": ["src", "test"]
 }

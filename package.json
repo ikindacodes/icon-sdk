@@ -10,7 +10,7 @@
     "build": "rm -rf packages/core/dist && tsc -p packages/core/tsconfig.build.json",
     "typecheck": "rm -rf packages/core/dist && tsc -p packages/core/tsconfig.build.json && tsc -p packages/core/tsconfig.json --noEmit && tsc -p tsconfig.json --noEmit",
     "lint": "biome check .",
-    "test": "rm -rf packages/core/dist && tsc -p packages/core/tsconfig.build.json && node --experimental-strip-types --test",
+    "test": "rm -rf packages/core/dist && tsc -p packages/core/tsconfig.build.json && node --experimental-strip-types --test packages/core/test/*.test.ts",
     "size": "node --experimental-strip-types scripts/size.ts"
   },
   "pnpm": {
