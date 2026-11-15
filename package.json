@@ -1,0 +1,27 @@
+{
+  "name": "icon-sdk",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.33.4",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "rm -rf packages/core/dist && tsc -p packages/core/tsconfig.build.json",
+    "typecheck": "rm -rf packages/core/dist && tsc -p packages/core/tsconfig.build.json && tsc -p packages/core/tsconfig.json --noEmit && tsc -p tsconfig.json --noEmit",
+    "lint": "biome check .",
+    "test": "rm -rf packages/core/dist && tsc -p packages/core/tsconfig.build.json && node --experimental-strip-types --test",
+    "size": "node --experimental-strip-types scripts/size.ts"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.8",
+    "@types/node": "^26.6.6",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  }
+}
